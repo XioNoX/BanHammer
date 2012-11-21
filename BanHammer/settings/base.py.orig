@@ -7,16 +7,16 @@ from funfactory.settings_base import *
 # If you did not install Playdoh with the funfactory installer script
 # you may need to edit this value. See the docs about installing from a
 # clone.
-PROJECT_MODULE = 'BanHammer'
+PROJECT_MODULE = 'project'
 
 # Defines the views served for root URLs.
 ROOT_URLCONF = '%s.urls' % PROJECT_MODULE
 
 INSTALLED_APPS = list(INSTALLED_APPS) + [
     # Application base, containing global templates.
-    #'%s.base' % PROJECT_MODULE,
+    '%s.base' % PROJECT_MODULE,
     # Example code. Can (and should) be removed for actual projects.
-    '%s.blacklist' % PROJECT_MODULE,
+    '%s.examples' % PROJECT_MODULE,
 ]
 
 LOCALE_PATHS = (
@@ -32,18 +32,18 @@ JINGO_EXCLUDE_APPS = [
 
 # BrowserID configuration
 AUTHENTICATION_BACKENDS = [
-    #'django_browserid.auth.BrowserIDBackend',
-    #'django.contrib.auth.backends.ModelBackend',
+    'django_browserid.auth.BrowserIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
-#SITE_URL = 'http://127.0.0.1:8000'
-#LOGIN_URL = '/'
-#LOGIN_REDIRECT_URL = 'examples.home'
-#LOGIN_REDIRECT_URL_FAILURE = 'examples.home'
+SITE_URL = 'http://127.0.0.1:8000'
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = 'examples.home'
+LOGIN_REDIRECT_URL_FAILURE = 'examples.home'
 
-#TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
-#    'django_browserid.context_processors.browserid_form',
-#]
+TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
+    'django_browserid.context_processors.browserid_form',
+]
 
 # Should robots.txt deny everything or disallow a calculated list of URLs we
 # don't want to be crawled?  Default is false, disallow everything.
@@ -78,8 +78,3 @@ DOMAIN_METHODS['messages'] = [
 # ]
 
 LOGGING = dict(loggers=dict(playdoh = {'level': logging.DEBUG}))
-
-
-MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
-MIDDLEWARE_CLASSES.remove('funfactory.middleware.LocaleURLMiddleware')
-
