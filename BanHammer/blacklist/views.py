@@ -75,8 +75,8 @@ def post(request):
             bug_number = form.cleaned_data['bug_number']
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
-            reporter = 'test' #//XXX
-            #reporter = request.META.get("REMOTE_USER")
+            #reporter = 'test' #//XXX
+            reporter = request.META.get("REMOTE_USER")
 
             # Fetch/create the Offender and Blacklist objects.
             o, new = Offender.objects.get_or_create(
