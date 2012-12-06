@@ -2,6 +2,7 @@
 # repo. If you need to override a setting locally, use settings_local.py
 
 from funfactory.settings_base import *
+import os
 
 # Name of the top-level module where you put all your apps.
 # If you did not install Playdoh with the funfactory installer script
@@ -82,4 +83,4 @@ LOGGING = dict(loggers=dict(playdoh = {'level': logging.DEBUG}))
 
 MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
 MIDDLEWARE_CLASSES.remove('funfactory.middleware.LocaleURLMiddleware')
-
+TEMPLATE_PATH=os.path.join(os.path.dirname(__file__), '../base/templates/')
