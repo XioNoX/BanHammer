@@ -33,9 +33,9 @@ def index(request):
     order = request.session.get('order', 'asc')
 
     if show_expired:
-        blacklists = Blacklist.objects.all()
+        blacklists = Blacklist.objects.filter(type="bgp_block")
     else:
-        blacklists = Blacklist.objects.filter(end_date__gt=datetime.now())
+        blacklists = Blacklist.objects.filter(type="bgp_block", end_date__gt=datetime.now())
 
     if order_by == 'address':
         blacklists = sorted(list(blacklists), key=lambda blacklist: blacklist.offender.address)
@@ -75,13 +75,15 @@ def post(request):
             bug_number = form.cleaned_data['bug_number']
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
-            #reporter = 'test' #//XXX
             reporter = request.META.get("REMOTE_USER")
+            if not reporter:
+                reporter = 'test'
 
             # Fetch/create the Offender and Blacklist objects.
             o, new = Offender.objects.get_or_create(
                 address=address,
-                cidr=cidr
+                cidr=cidr,
+                suggestion=0,
             )
             o.save()
 
@@ -91,7 +93,9 @@ def post(request):
                 comment=comment,
                 bug_number=bug_number,
                 reporter=reporter,
-                offender=o
+                offender=o,
+                suggestion=0,
+                type="bgp_block",
             )
             b.save()
 

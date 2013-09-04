@@ -13,6 +13,13 @@ class Offender(models.Model):
     hostname = models.CharField(max_length=255, null=True)
     asn = models.IntegerField(null=True)
 
+    #     BanHammer-ng
+    # Is it only a suggestion or a host that was actually blocked?
+    suggestion = models.BooleanField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    score = models.BigIntegerField(default=0)
+
     def _cidrToNetmask(self):
         bits = 0
         for i in xrange(32-self.cidr, 32):
@@ -32,6 +39,18 @@ class Blacklist(models.Model):
     comment = models.CharField(max_length=1024)
     reporter = models.EmailField()
     bug_number = models.IntegerField(max_length=7, null=True)
+
+    #    BanHammer-ng
+    TYPES = (('zlb_redirect', 'zlb_redirect'),
+        ('zlb_block', 'zlb_block'),
+        ('bgp_block', 'bgp_block'),
+        ('unknown', 'unknown')
+    )
+    
+    suggestion = models.BooleanField()
+    type = models.CharField(max_length=12, choices=TYPES)
+    block_captcha = models.BigIntegerField(default=0)
+    removed = models.BooleanField(default=False)
 
 class DisplayForm(forms.Form):
 
